@@ -1,18 +1,17 @@
 const fs = require("fs");
-const { PassThrough } = require("stream");
 
 const Block = require("./Block");
 
 class BlockChain {
   constructor() {
-    this.blocks = [this.createGenesisBlock()];
     this.difficulty = 4;
+    this.blocks = [this.createGenesisBlock()];
   }
 
   createGenesisBlock() {
     const genesisBlock = new Block({ name: "Genesis block" }, "2021/12/28");
 
-    genesisBlock.hash = genesisBlock.createHash();
+    genesisBlock.hash = genesisBlock.mine(this.difficulty);
 
     return genesisBlock;
   }
