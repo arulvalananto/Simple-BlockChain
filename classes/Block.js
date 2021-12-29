@@ -1,10 +1,9 @@
 const crypto = require("crypto");
 
 class Block {
-  constructor(data, date = Date.now()) {
-    this.index = 0;
+  constructor(transactions, date = Date.now()) {
     this.timestamp = new Date(date);
-    this.data = data;
+    this.transactions = transactions;
     this.previousHash = "";
     this.hash = "";
     this.nonce = 0;
@@ -14,10 +13,9 @@ class Block {
     return crypto
       .createHmac("sha256", process.env.SECRET)
       .update(
-        this.index +
-          this.previousHash +
+        this.previousHash +
           this.timestamp +
-          JSON.stringify(this.data) +
+          JSON.stringify(this.transactions) +
           this.nonce
       )
       .digest("hex");
@@ -30,9 +28,15 @@ class Block {
       this.nonce++;
       this.hash = this.createHash();
     }
-    console.log("Block mined:" + this.hash);
+    console.log(`⛏️  Block mined: ${this.hash}`);
+  }
 
-    return this.hash;
+  hasValidTransactions() {
+    for (const trans of this.transactions) {
+      if (!trans.verify()) return false;
+
+      return true;
+    }
   }
 }
 
