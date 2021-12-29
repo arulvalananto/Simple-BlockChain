@@ -1,5 +1,4 @@
 require("dotenv").config({ path: ".env" });
-const crypto = require("crypto");
 const Block = require("./Block");
 
 const BlockChain = require("./BlockChain");

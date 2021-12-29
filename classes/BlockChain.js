@@ -29,7 +29,7 @@ class BlockChain {
     this.blocks.push(newBlock);
 
     fs.writeFile(
-      "BlockChain.json",
+      "/data/BlockChain.json",
       JSON.stringify(this.blocks, null, 4),
       (err) => (err ? console.log(err) : "")
     );
